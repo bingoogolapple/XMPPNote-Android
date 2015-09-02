@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/MatchMatch.Vertical">
+
+    <cn.bingoogolapple.titlebar.BGATitlebar
+        android:id="@+id/titlebar"
+        style="@style/TitleBar"
+        app:bgatitlebar_titleText="登陆" />
+
+    <LinearLayout
+        style="@style/LineWhiteLine"
+        android:layout_marginBottom="@dimen/size_level6"
+        android:layout_marginTop="@dimen/size_level3">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/et_login_username"
+            style="@style/FormEt.Common"
+            android:hint="@string/username_hint"
+            android:text="bga3" />
+
+        <View style="@style/LeftMarginLine" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/et_login_pwd"
+            style="@style/FormEt.Common.Pwd"
+            android:hint="@string/pwd_hint"
+            android:imeActionLabel="@string/login"
+            android:imeOptions="actionGo"
+            android:text="123456" />
+    </LinearLayout>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_login_login"
+        style="@style/FromBtn.OrangeLight"
+        android:text="@string/login" />
+</LinearLayout>

@@ -1,0 +1,10 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/MatchMatch.Vertical">
+
+    <cn.bingoogolapple.titlebar.BGATitlebar
+        android:id="@+id/titlebar"
+        style="@style/TitleBar"
+        app:bgatitlebar_titleText="@string/app_name" />
+
+</LinearLayout>

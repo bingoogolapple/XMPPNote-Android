@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="orange_light_normal">#ffc000</color>
+    <color name="orange_light_pressed">#99ffc000</color>
+
+    <color name="orange_dark_normal">#ff9a00</color>
+    <color name="orange_dark_pressed">#99ff9a00</color>
+
+    <color name="black_middle">#8f8f8f</color>
+    <color name="black_light">#d4d4d4</color>
+    <color name="black_light_trans">#0dd4d4d4</color>
+    <color name="black_dark">#4d4d4d</color>
+
+    <color name="red">#ff0000</color>
+
+    <color name="white">#ffffff</color>
+
+    <color name="windowBackground">#f6f6f6</color>
+    <color name="colorPrimary">#f5f5f5</color>
+    <color name="colorAccent">@color/orange_light_normal</color>
+
+    <color name="gray_line">#dedede</color>
+
+    <color name="list_item_pressed">#ececec</color>
+
+</resources>

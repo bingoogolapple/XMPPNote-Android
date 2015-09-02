@@ -1,0 +1,115 @@
+<resources>
+
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--colorPrimary对应ActionBar的颜色-->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <!--colorAccent 对应EditText编辑时、RadioButton选中、CheckBox等选中时的颜色-->
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppBaseTransparentTheme" parent="AppBaseTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme" />
+
+    <style name="TransparentTheme" parent="AppBaseTransparentTheme" />
+
+    <style name="TransparentTheme.Splash" />
+
+    <style name="TitleBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/titlebar_height</item>
+        <item name="android:background">@drawable/layer_titlebar_bg</item>
+        <item name="bgatitlebar_leftAndRightTextColor">@color/selector_orange_light</item>
+        <item name="bgatitlebar_leftAndRightTextSize">@dimen/textSize_18</item>
+        <item name="bgatitlebar_titleTextColor">@color/black_dark</item>
+        <item name="bgatitlebar_titleTextSize">@dimen/textSize_18</item>
+        <item name="bgatitlebar_leftAndRightPadding">@dimen/size_level2</item>
+    </style>
+
+    <style name="TitleBar.Back">
+        <item name="bgatitlebar_leftDrawable">@drawable/selector_back</item>
+        <item name="bgatitlebar_leftText">@string/back</item>
+        <item name="bgatitlebar_leftDrawablePadding">@dimen/size_level1</item>
+    </style>
+
+    <style name="FromBtn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/form_item_height</item>
+        <item name="android:layout_marginLeft">@dimen/size_level2</item>
+        <item name="android:layout_marginRight">@dimen/size_level2</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/textSize_16</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="FromBtn.OrangeLight">
+        <item name="android:background">@drawable/selector_btn_orange_light</item>
+    </style>
+
+    <style name="FromBtn.OrangeDark">
+        <item name="android:background">@drawable/selector_btn_orange_dark</item>
+    </style>
+
+    <style name="HorizontalLine" parent="MatchOne">
+        <item name="android:background">@color/gray_line</item>
+    </style>
+
+    <style name="LeftMarginLine" parent="MatchOne">
+        <item name="android:layout_marginLeft">@dimen/size_level3</item>
+        <item name="android:background">@color/gray_line</item>
+    </style>
+
+    <style name="LeftRightMarginLine" parent="MatchOne">
+        <item name="android:layout_marginLeft">@dimen/size_level3</item>
+        <item name="android:layout_marginRight">@dimen/size_level3</item>
+        <item name="android:background">@color/gray_line</item>
+    </style>
+
+    <style name="LineWhiteLine" parent="MatchWrap.Vertical">
+        <item name="android:background">@drawable/layer_line_white_line</item>
+    </style>
+
+    <style name="VerticalLine" parent="OneMatch">
+        <item name="android:background">@color/gray_line</item>
+    </style>
+
+    <style name="FormItemContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/form_item_height</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="FormEt">
+        <item name="android:layout_height">@dimen/form_item_height</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">@dimen/size_level2</item>
+        <item name="android:paddingRight">@dimen/size_level2</item>
+        <item name="android:textColor">@color/black_middle</item>
+        <item name="android:textColorHint">@color/black_light</item>
+        <item name="android:textSize">@dimen/textSize_16</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:imeActionLabel">@string/next_step</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="FormEt.Common">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="FormEt.Common.Pwd">
+        <item name="android:inputType">textPassword</item>
+    </style>
+
+    <style name="FormEt.Common.Phone">
+        <item name="android:inputType">phone</item>
+        <item name="android:maxLength">11</item>
+    </style>
+
+</resources>

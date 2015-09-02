@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">XMPPNote</string>
+    <string name="toast_exit_tip">再按一次返回键退出应用程序</string>
+    <string name="back">返回</string>
+    <string name="next_step">下一步</string>
+
+    <string name="login">登录</string>
+    <string name="username_hint">请输入用户名</string>
+    <string name="pwd_hint">请输入密码</string>
+
+    <string name="invalid_username_emp_tip">用户不能为空!</string>
+    <string name="invalid_pwd_emp_tip">密码不能为空!</string>
+</resources>
