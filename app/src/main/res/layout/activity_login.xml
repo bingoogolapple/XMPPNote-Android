@@ -6,7 +6,7 @@
     <cn.bingoogolapple.titlebar.BGATitlebar
         android:id="@+id/titlebar"
         style="@style/TitleBar"
-        app:bgatitlebar_titleText="登陆" />
+        app:bgatitlebar_titleText="@string/login" />
 
     <LinearLayout
         style="@style/LineWhiteLine"
@@ -32,6 +32,6 @@
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_login_login"
-        style="@style/FromBtn.OrangeLight"
+        style="@style/FromBtn"
         android:text="@string/login" />
 </LinearLayout>

@@ -5,6 +5,27 @@
     <cn.bingoogolapple.titlebar.BGATitlebar
         android:id="@+id/titlebar"
         style="@style/TitleBar"
-        app:bgatitlebar_titleText="@string/app_name" />
+        app:bgatitlebar_titleText="@string/chat" />
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_main_content"
+        style="@style/MatchAuto" />
+
+    <RadioGroup
+        android:id="@+id/rg_main_tab"
+        style="@style/MatchWrap.Horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white">
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/rb_main_chat"
+            style="@style/MainTabRb"
+            android:checked="true"
+            android:drawableTop="@drawable/selector_chat" />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/rb_main_contacts"
+            style="@style/MainTabRb"
+            android:drawableTop="@drawable/selector_contacts" />
+    </RadioGroup>
 </LinearLayout>

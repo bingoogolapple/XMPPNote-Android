@@ -10,4 +10,7 @@
 
     <string name="invalid_username_emp_tip">用户不能为空!</string>
     <string name="invalid_pwd_emp_tip">密码不能为空!</string>
+
+    <string name="chat">聊天</string>
+    <string name="contacts">联系人</string>
 </resources>
