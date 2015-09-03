@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.RosterListener;
+import org.jivesoftware.smack.packet.Presence;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,6 +19,7 @@ import cn.bingoogolapple.xmpp.dao.ContactDao;
 import cn.bingoogolapple.xmpp.engine.IMEngine;
 import cn.bingoogolapple.xmpp.model.Contact;
 import cn.bingoogolapple.xmpp.ui.widget.Divider;
+import cn.bingoogolapple.xmpp.util.Logger;
 import cn.bingoogolapple.xmpp.util.ThreadUtil;
 
 /**
@@ -27,6 +30,8 @@ import cn.bingoogolapple.xmpp.util.ThreadUtil;
 public class ContactsFragment extends BaseFragment {
     private RecyclerView mDataRv;
     private ContactsAdapter mContactsAdapter;
+    private Roster mRoster;
+    private ContactDao mContactDao;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -54,14 +59,47 @@ public class ContactsFragment extends BaseFragment {
         ThreadUtil.runInThread(new Runnable() {
             @Override
             public void run() {
-                ContactDao contactDao = new ContactDao();
-                Roster roster = IMEngine.sConn.getRoster();
-                Collection<RosterEntry> entries = roster.getEntries();
+                mContactDao = new ContactDao();
+                mRoster = IMEngine.sConn.getRoster();
+                final Collection<RosterEntry> entries = mRoster.getEntries();
                 for (RosterEntry entry : entries) {
-                    contactDao.saveOrUpdateEntry(entry);
+                    mContactDao.saveOrUpdateEntry(entry);
                 }
+                mRoster.addRosterListener(new RosterListener() {
+                    @Override
+                    public void entriesAdded(Collection<String> addresses) {
+                        Logger.i(TAG, "entriesAdded");
+                        for (String address : addresses) {
+                            mContactDao.saveOrUpdateEntry(mRoster.getEntry(address));
+                        }
+                    }
 
-                final List<Contact> contacts = contactDao.getContacts();
+                    @Override
+                    public void entriesUpdated(Collection<String> addresses) {
+                        Logger.i(TAG, "entriesUpdated");
+                        for (String address : addresses) {
+                            mContactDao.saveOrUpdateEntry(mRoster.getEntry(address));
+                        }
+                    }
+
+                    @Override
+                    public void entriesDeleted(Collection<String> addresses) {
+                        Logger.i(TAG, "entriesDeleted");
+                        for (String address : addresses) {
+                            RosterEntry entry = mRoster.getEntry(address);
+                            if (entry != null) {
+                                mContactDao.delete(entry.getUser());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void presenceChanged(Presence presence) {
+                        Logger.i(TAG, "presenceChanged");
+                    }
+                });
+
+                final List<Contact> contacts = mContactDao.getContacts();
 
                 ThreadUtil.runInUIThread(new Runnable() {
                     @Override
@@ -83,6 +121,7 @@ public class ContactsFragment extends BaseFragment {
         @Override
         protected void fillData(BGAViewHolderHelper helper, int position, Contact model) {
             helper.setText(R.id.tv_item_contacts_nickname, model.nickname);
+            helper.setText(R.id.tv_item_contacts_account, model.account);
         }
     }
 

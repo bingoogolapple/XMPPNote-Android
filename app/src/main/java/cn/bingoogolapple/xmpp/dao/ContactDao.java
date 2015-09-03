@@ -26,6 +26,10 @@ public class ContactDao {
     private static final String TAG = ContactDao.class.getSimpleName();
 
     public void saveOrUpdateEntry(RosterEntry entry) {
+        if (entry == null) {
+            return;
+        }
+
         String account = entry.getUser();
 //            account = account.substring(0, account.indexOf("@")) + IMEngine.SERVICE_NAME;
 
@@ -52,6 +56,11 @@ public class ContactDao {
         } else {
             Logger.i(TAG, "修改成功" + updatedCount);
         }
+    }
+
+    public boolean delete(String account) {
+        int deletedCount = App.getInstance().getContentResolver().delete(ContactsProvider.URI_CONTACT, ContactOpenHelper.ContactTable.ACCOUNT + "=?", new String[]{account});
+        return deletedCount > 0;
     }
 
     public List<Contact> getContacts() {

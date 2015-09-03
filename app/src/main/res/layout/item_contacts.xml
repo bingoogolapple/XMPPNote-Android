@@ -2,13 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/MatchWrap.Vertical"
-    android:background="@drawable/selector_white_gray">
+    android:background="@drawable/selector_white_gray"
+    android:padding="@dimen/size_level2">
 
     <TextView
         android:id="@+id/tv_item_contacts_nickname"
         style="@style/MatchWrap"
-        android:padding="@dimen/size_level2"
         android:textColor="@color/black_dark"
         android:textSize="@dimen/textSize_16"
         tools:text="昵称" />
+
+    <TextView
+        android:id="@+id/tv_item_contacts_account"
+        style="@style/MatchWrap"
+        android:layout_marginTop="@dimen/size_level1"
+        android:textColor="@color/black_middle"
+        android:textSize="@dimen/textSize_14"
+        tools:text="bga@bga.cn" />
 </LinearLayout>

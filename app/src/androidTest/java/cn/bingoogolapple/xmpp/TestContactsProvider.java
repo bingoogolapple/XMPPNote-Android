@@ -35,7 +35,8 @@ public class TestContactsProvider extends AndroidTestCase {
     }
 
     public void testDelete() {
-        getContext().getContentResolver().delete(ContactsProvider.URI_CONTACT, ContactOpenHelper.ContactTable.ACCOUNT + "=?", new String[]{"lisi@bga.cn"});
+        int deletedCount = getContext().getContentResolver().delete(ContactsProvider.URI_CONTACT, ContactOpenHelper.ContactTable.ACCOUNT + "=?", new String[]{"lisi@bga.cn"});
+        Logger.i(TAG, "删除" + deletedCount);
     }
 
     public void testUpdate() {
