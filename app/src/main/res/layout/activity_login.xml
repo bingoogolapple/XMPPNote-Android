@@ -17,7 +17,7 @@
             android:id="@+id/et_login_username"
             style="@style/FormEt.Common"
             android:hint="@string/username_hint"
-            android:text="bga3" />
+            android:text="bga1" />
 
         <View style="@style/LeftMarginLine" />
 

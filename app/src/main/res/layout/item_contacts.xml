@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MatchWrap.Vertical"
+    android:background="@drawable/selector_white_gray">
+
+    <TextView
+        android:id="@+id/tv_item_contacts_nickname"
+        style="@style/MatchWrap"
+        android:padding="@dimen/size_level2"
+        android:textColor="@color/black_dark"
+        android:textSize="@dimen/textSize_16"
+        tools:text="昵称" />
+</LinearLayout>
