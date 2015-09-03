@@ -37,6 +37,9 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
+        <provider
+            android:name=".provider.ContactsProvider"
+            android:authorities="cn.bingoogolapple.xmpp.provider.ContactsProvider" />
     </application>
 
 </manifest>
