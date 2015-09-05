@@ -15,7 +15,6 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
 import cn.bingoogolapple.xmpp.R;
-import cn.bingoogolapple.xmpp.engine.IMEngine;
 import cn.bingoogolapple.xmpp.service.IMService;
 import cn.bingoogolapple.xmpp.util.SweetAlertDialogUtil;
 
@@ -76,7 +75,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             protected Boolean doInBackground(Void... params) {
-                ConnectionConfiguration conf = new ConnectionConfiguration(IMEngine.HOST, IMEngine.PORT);
+                ConnectionConfiguration conf = new ConnectionConfiguration(IMService.HOST, IMService.PORT);
 
                 // 开发的时候明文传输
                 conf.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
@@ -88,7 +87,8 @@ public class LoginActivity extends BaseActivity {
 
                     conn.login(username, pwd);
 
-                    IMEngine.sConn = conn;
+                    IMService.sConn = conn;
+                    IMService.sAccount = username + "@" + IMService.SERVICE_NAME;
 
                     return true;
                 } catch (XMPPException e) {

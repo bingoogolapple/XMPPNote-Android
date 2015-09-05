@@ -8,12 +8,12 @@ import android.support.annotation.Nullable;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterListener;
+import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.packet.Presence;
 
 import java.util.Collection;
 
 import cn.bingoogolapple.xmpp.dao.ContactDao;
-import cn.bingoogolapple.xmpp.engine.IMEngine;
 import cn.bingoogolapple.xmpp.util.Logger;
 import cn.bingoogolapple.xmpp.util.ThreadUtil;
 
@@ -24,6 +24,12 @@ import cn.bingoogolapple.xmpp.util.ThreadUtil;
  */
 public class IMService extends Service {
     private static final String TAG = IMService.class.getSimpleName();
+    public static final String HOST = "192.168.199.142";
+    public static final int PORT = 5222;
+    public static final String SERVICE_NAME = "bga.cn";
+    public static XMPPConnection sConn;
+    public static String sAccount;
+
     private Roster mRoster;
     private ContactDao mContactDao;
     private ContactRosterListener mContactRosterListener;
@@ -40,7 +46,7 @@ public class IMService extends Service {
             @Override
             public void run() {
                 mContactDao = new ContactDao();
-                mRoster = IMEngine.sConn.getRoster();
+                mRoster = sConn.getRoster();
                 mContactRosterListener = new ContactRosterListener();
                 mRoster.addRosterListener(mContactRosterListener);
 

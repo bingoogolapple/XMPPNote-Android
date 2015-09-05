@@ -10,9 +10,14 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Message;
+
 import cn.bingoogolapple.titlebar.BGATitlebar;
 import cn.bingoogolapple.xmpp.R;
-import cn.bingoogolapple.xmpp.util.ToastUtil;
+import cn.bingoogolapple.xmpp.service.IMService;
+import cn.bingoogolapple.xmpp.util.ThreadUtil;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
@@ -25,6 +30,7 @@ public class ChatActivity extends BaseActivity {
     private RecyclerView mDataRv;
     private EditText mMsgEt;
     private String mAccount;
+    private Chat mChat;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -57,12 +63,13 @@ public class ChatActivity extends BaseActivity {
     @Override
     protected void processLogic(Bundle savedInstanceState) {
         mTitlebar.setTitleText(String.format(getString(R.string.chat_title), getIntent().getStringExtra(EXTRA_NICKNAME)));
-        mAccount = getIntent().getStringExtra(EXTRA_ACCOUNT);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataRv.setLayoutManager(layoutManager);
 
+        mAccount = getIntent().getStringExtra(EXTRA_ACCOUNT);
+        mChat = IMService.sConn.getChatManager().createChat(mAccount, null);
     }
 
     @Override
@@ -73,9 +80,30 @@ public class ChatActivity extends BaseActivity {
     }
 
     private void send() {
-        String msg = mMsgEt.getText().toString().trim();
+        final String msg = mMsgEt.getText().toString().trim();
         if (!TextUtils.isEmpty(msg)) {
-            ToastUtil.show("发送 " + msg);
+            ThreadUtil.runInThread(new Runnable() {
+                @Override
+                public void run() {
+                    Message message = new Message();
+                    message.setFrom(IMService.sAccount);
+                    message.setTo(mAccount);
+                    message.setBody(msg);
+                    message.setType(Message.Type.chat);
+                    try {
+                        mChat.sendMessage(message);
+                    } catch (XMPPException e) {
+                        e.printStackTrace();
+                    }
+
+                    ThreadUtil.runInUIThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mMsgEt.setText("");
+                        }
+                    });
+                }
+            });
         }
     }
 
