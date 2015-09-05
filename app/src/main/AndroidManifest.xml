@@ -40,6 +40,8 @@
         <provider
             android:name=".provider.ContactsProvider"
             android:authorities="cn.bingoogolapple.xmpp.provider.ContactsProvider" />
+
+        <service android:name=".service.IMService" />
     </application>
 
 </manifest>

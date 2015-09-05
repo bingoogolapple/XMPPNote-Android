@@ -1,5 +1,6 @@
 package cn.bingoogolapple.xmpp.ui.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import org.jivesoftware.smack.XMPPException;
 
 import cn.bingoogolapple.xmpp.R;
 import cn.bingoogolapple.xmpp.engine.IMEngine;
+import cn.bingoogolapple.xmpp.service.IMService;
 import cn.bingoogolapple.xmpp.util.SweetAlertDialogUtil;
 
 public class LoginActivity extends BaseActivity {
@@ -99,6 +101,8 @@ public class LoginActivity extends BaseActivity {
             protected void onPostExecute(Boolean result) {
                 dismissLoadingDialog();
                 if (result) {
+                    startService(new Intent(LoginActivity.this, IMService.class));
+
                     forwardAndFinish(MainActivity.class);
                 } else {
                     SweetAlertDialogUtil.showError(LoginActivity.this, "提示", "登陆失败");

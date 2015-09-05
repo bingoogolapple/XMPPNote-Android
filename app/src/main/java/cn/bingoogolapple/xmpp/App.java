@@ -75,8 +75,8 @@ public class App extends Application {
                 activity.finish();
             }
         }
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.gc();
-        System.exit(0);
+//        android.os.Process.killProcess(android.os.Process.myPid());
+//        System.gc();
+//        System.exit(0);
     }
 }
