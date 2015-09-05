@@ -11,12 +11,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 
 import cn.bingoogolapple.titlebar.BGATitlebar;
 import cn.bingoogolapple.xmpp.R;
 import cn.bingoogolapple.xmpp.service.IMService;
+import cn.bingoogolapple.xmpp.util.Logger;
 import cn.bingoogolapple.xmpp.util.ThreadUtil;
 
 /**
@@ -69,7 +71,7 @@ public class ChatActivity extends BaseActivity {
         mDataRv.setLayoutManager(layoutManager);
 
         mAccount = getIntent().getStringExtra(EXTRA_ACCOUNT);
-        mChat = IMService.sConn.getChatManager().createChat(mAccount, null);
+        mChat = IMService.sConn.getChatManager().createChat(mAccount, new ChatMessageListener());
     }
 
     @Override
@@ -110,5 +112,13 @@ public class ChatActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         backward();
+    }
+
+    private final class ChatMessageListener implements MessageListener {
+
+        @Override
+        public void processMessage(Chat chat, Message message) {
+            Logger.i(TAG, "线程名称 = " + Thread.currentThread().getName() + "  消息 = " + message.getBody());
+        }
     }
 }

@@ -46,6 +46,10 @@
             android:name=".provider.ContactsProvider"
             android:authorities="cn.bingoogolapple.xmpp.provider.ContactsProvider" />
 
+        <provider
+            android:name=".provider.SmsProvider"
+            android:authorities="cn.bingoogolapple.xmpp.provider.SmsProvider" />
+
         <service android:name=".service.IMService" />
     </application>
 
