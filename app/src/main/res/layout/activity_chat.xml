@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MatchMatch.Vertical">
+
+    <cn.bingoogolapple.titlebar.BGATitlebar
+        android:id="@+id/titlebar"
+        style="@style/TitleBar.Back" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_chat_data"
+        style="@style/MatchAuto"
+        android:scrollbars="none" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_level9"
+        android:orientation="horizontal"
+        android:padding="@dimen/size_level1">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/et_chat_msg"
+            style="@style/AutoMatch"
+            android:background="@drawable/shape_roundrect_white"
+            android:gravity="center_vertical"
+            android:hint="@string/please_enter_msg"
+            android:imeActionLabel="@string/send"
+            android:imeOptions="actionSend"
+            android:paddingLeft="@dimen/size_level2"
+            android:singleLine="true"
+            android:textColorHint="@color/black_light"
+            android:textSize="@dimen/textSize_14" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_chat_send"
+            android:layout_width="@dimen/size_level14"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/size_level1"
+            android:background="@drawable/selector_btn_orange"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="@string/send"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_14" />
+    </LinearLayout>
+
+</LinearLayout>

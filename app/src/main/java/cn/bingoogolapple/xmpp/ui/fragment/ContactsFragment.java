@@ -1,20 +1,25 @@
 package cn.bingoogolapple.xmpp.ui.fragment;
 
+import android.content.Intent;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.List;
 
+import cn.bingoogolapple.androidcommon.adapter.BGAOnRVItemClickListener;
 import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
 import cn.bingoogolapple.xmpp.R;
 import cn.bingoogolapple.xmpp.dao.ContactDao;
 import cn.bingoogolapple.xmpp.model.Contact;
 import cn.bingoogolapple.xmpp.provider.ContactsProvider;
+import cn.bingoogolapple.xmpp.ui.activity.ChatActivity;
 import cn.bingoogolapple.xmpp.ui.widget.Divider;
 import cn.bingoogolapple.xmpp.util.Logger;
 import cn.bingoogolapple.xmpp.util.ThreadUtil;
@@ -24,7 +29,7 @@ import cn.bingoogolapple.xmpp.util.ThreadUtil;
  * 创建时间:15/9/2 下午10:59
  * 描述:
  */
-public class ContactsFragment extends BaseFragment {
+public class ContactsFragment extends BaseFragment implements BGAOnRVItemClickListener {
     private RecyclerView mDataRv;
     private ContactsAdapter mContactsAdapter;
     private ContactDao mContactDao;
@@ -39,6 +44,7 @@ public class ContactsFragment extends BaseFragment {
     @Override
     protected void setListener() {
         mContactsAdapter = new ContactsAdapter(mDataRv);
+        mContactsAdapter.setOnRVItemClickListener(this);
     }
 
     @Override
@@ -85,6 +91,15 @@ public class ContactsFragment extends BaseFragment {
 
     private void unregisterContactContentObserver() {
         mActivity.getContentResolver().unregisterContentObserver(mContactContentObserver);
+    }
+
+    @Override
+    public void onRVItemClick(ViewGroup viewGroup, View view, int position) {
+        Contact contact = mContactsAdapter.getItem(position);
+        Intent intent = new Intent(mActivity, ChatActivity.class);
+        intent.putExtra(ChatActivity.EXTRA_ACCOUNT, contact.account);
+        intent.putExtra(ChatActivity.EXTRA_NICKNAME, contact.nickname);
+        mActivity.forward(intent);
     }
 
     private final class ContactContentObserver extends ContentObserver {

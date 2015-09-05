@@ -14,19 +14,19 @@ import cn.bingoogolapple.xmpp.ui.widget.Divider;
  * 创建时间:15/9/2 下午10:59
  * 描述:
  */
-public class ChatFragment extends BaseFragment {
+public class SessionFragment extends BaseFragment {
     private RecyclerView mDataRv;
-    private ChatAdapter mChatAdapter;
+    private SessionAdapter mSessionAdapter;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.fragment_chat);
-        mDataRv = getViewById(R.id.rv_chat_data);
+        setContentView(R.layout.fragment_session);
+        mDataRv = getViewById(R.id.rv_session_data);
     }
 
     @Override
     protected void setListener() {
-        mChatAdapter = new ChatAdapter(mDataRv);
+        mSessionAdapter = new SessionAdapter(mDataRv);
     }
 
     @Override
@@ -35,13 +35,13 @@ public class ChatFragment extends BaseFragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDataRv.setLayoutManager(layoutManager);
         mDataRv.addItemDecoration(new Divider(mActivity));
-        mDataRv.setAdapter(mChatAdapter);
+        mDataRv.setAdapter(mSessionAdapter);
     }
 
-    private static final class ChatAdapter extends BGARecyclerViewAdapter<String> {
+    private static final class SessionAdapter extends BGARecyclerViewAdapter<String> {
 
-        public ChatAdapter(RecyclerView recyclerView) {
-            super(recyclerView, R.layout.item_chat);
+        public SessionAdapter(RecyclerView recyclerView) {
+            super(recyclerView, R.layout.item_session);
         }
 
         @Override

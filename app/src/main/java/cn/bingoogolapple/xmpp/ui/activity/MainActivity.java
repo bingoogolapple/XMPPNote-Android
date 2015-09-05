@@ -9,7 +9,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import cn.bingoogolapple.xmpp.R;
-import cn.bingoogolapple.xmpp.ui.fragment.ChatFragment;
+import cn.bingoogolapple.xmpp.ui.fragment.SessionFragment;
 import cn.bingoogolapple.xmpp.ui.fragment.ContactsFragment;
 
 public class MainActivity extends BaseActivity {
@@ -18,7 +18,7 @@ public class MainActivity extends BaseActivity {
     private RadioButton mChatRb;
     private RadioButton mContactsRb;
 
-    private ChatFragment mChatFragment;
+    private SessionFragment mSessionFragment;
     private ContactsFragment mContactsFragment;
 
     @Override
@@ -87,10 +87,10 @@ public class MainActivity extends BaseActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    if (mChatFragment == null) {
-                        mChatFragment = new ChatFragment();
+                    if (mSessionFragment == null) {
+                        mSessionFragment = new SessionFragment();
                     }
-                    return mChatFragment;
+                    return mSessionFragment;
                 case 1:
                     if (mContactsFragment == null) {
                         mContactsFragment = new ContactsFragment();

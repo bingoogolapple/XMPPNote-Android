@@ -13,4 +13,8 @@
 
     <string name="chat">聊天</string>
     <string name="contacts">联系人</string>
+
+    <string name="chat_title">与%1$s聊天中</string>
+    <string name="send">发送</string>
+    <string name="please_enter_msg">请输入消息</string>
 </resources>

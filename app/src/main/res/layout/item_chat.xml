@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    style="@style/MatchWrap.Vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_item_chat_other"
+        style="@style/MatchWrap.Horizontal"
+        android:gravity="center_vertical"
+        android:padding="@dimen/size_level1">
+
+        <ImageView
+            android:id="@+id/iv_item_chat_other_avator"
+            android:layout_width="@dimen/size_level12"
+            android:layout_height="@dimen/size_level12"
+            android:src="@mipmap/chat_other" />
+
+        <TextView
+            android:id="@+id/tv_item_chat_other_msg"
+            style="@style/WrapWrap"
+            android:layout_marginLeft="@dimen/size_level1"
+            android:layout_toRightOf="@id/iv_item_chat_other_avator"
+            android:background="@mipmap/chat_bg_other"
+            android:gravity="left|center"
+            android:text="测试消息"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_14" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_item_chat_me"
+        style="@style/MatchWrap.Horizontal"
+        android:gravity="center_vertical"
+        android:padding="@dimen/size_level1">
+
+        <ImageView
+            android:id="@+id/iv_item_chat_me_avator"
+            android:layout_width="@dimen/size_level12"
+            android:layout_height="@dimen/size_level12"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/chat_me" />
+
+        <TextView
+            android:id="@+id/tv_item_chat_me_msg"
+            style="@style/WrapWrap"
+            android:layout_marginRight="@dimen/size_level1"
+            android:layout_toLeftOf="@id/iv_item_chat_me_avator"
+            android:background="@mipmap/chat_bg_me"
+            android:gravity="right|center"
+            android:text="测试消息"
+            android:textColor="@color/black_dark"
+            android:textSize="@dimen/textSize_14" />
+    </RelativeLayout>
 
 </LinearLayout>
