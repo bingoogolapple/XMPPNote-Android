@@ -75,6 +75,7 @@ public class ContactDao {
                 contact.pinyin = cursor.getString(cursor.getColumnIndex(ContactOpenHelper.ContactTable.PINYIN));
                 contacts.add(contact);
             }
+            cursor.close();
         }
         return contacts;
     }

@@ -60,6 +60,9 @@ public class ContactsProvider extends ContentProvider {
                     Logger.i(TAG, "添加联系人成功");
                     // 拼接最新的Uri
                     uri = ContentUris.withAppendedId(uri, newlyId);
+
+                    // 通知内容观察者数据有改变，null表示所有的内容观察者都能收到
+                    getContext().getContentResolver().notifyChange(URI_CONTACT, null);
                 }
                 break;
             default:
@@ -78,6 +81,8 @@ public class ContactsProvider extends ContentProvider {
                 affectedCount = db.delete(ContactOpenHelper.T_CONTACT, selection, selectionArgs);
                 if (affectedCount > 0) {
                     Logger.i(TAG, "删除联系人成功");
+
+                    getContext().getContentResolver().notifyChange(URI_CONTACT, null);
                 }
                 break;
             default:
@@ -96,6 +101,7 @@ public class ContactsProvider extends ContentProvider {
                 affectedCount = db.update(ContactOpenHelper.T_CONTACT, values, selection, selectionArgs);
                 if (affectedCount > 0) {
                     Logger.i(TAG, "修改联系人成功");
+                    getContext().getContentResolver().notifyChange(URI_CONTACT, null);
                 }
                 break;
             default:
