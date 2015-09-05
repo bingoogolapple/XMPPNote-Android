@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_chat_root"
     style="@style/MatchMatch.Vertical">
 
     <cn.bingoogolapple.titlebar.BGATitlebar
         android:id="@+id/titlebar"
         style="@style/TitleBar.Back" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_chat_data"
-        style="@style/MatchAuto"
-        android:scrollbars="none" />
+    <RelativeLayout style="@style/MatchAuto">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_chat_data"
+            style="@style/MatchMatch"
+            android:scrollbars="none" />
+
+        <TextView
+            android:id="@+id/tv_chat_newmsgtip"
+            style="@style/MatchWrap"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/shape_roundrect_white"
+            android:padding="@dimen/size_level2"
+            android:text="有新消息"
+            android:visibility="gone" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

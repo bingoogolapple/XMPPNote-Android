@@ -17,7 +17,7 @@ import cn.bingoogolapple.androidcommon.adapter.BGARecyclerViewAdapter;
 import cn.bingoogolapple.androidcommon.adapter.BGAViewHolderHelper;
 import cn.bingoogolapple.xmpp.R;
 import cn.bingoogolapple.xmpp.dao.ContactDao;
-import cn.bingoogolapple.xmpp.model.Contact;
+import cn.bingoogolapple.xmpp.model.ContactModel;
 import cn.bingoogolapple.xmpp.provider.ContactsProvider;
 import cn.bingoogolapple.xmpp.ui.activity.ChatActivity;
 import cn.bingoogolapple.xmpp.ui.widget.Divider;
@@ -67,11 +67,11 @@ public class ContactsFragment extends BaseFragment implements BGAOnRVItemClickLi
                 if (mContactDao == null) {
                     mContactDao = new ContactDao();
                 }
-                final List<Contact> contacts = mContactDao.getContacts();
+                final List<ContactModel> contactModels = mContactDao.getContacts();
                 ThreadUtil.runInUIThread(new Runnable() {
                     @Override
                     public void run() {
-                        mContactsAdapter.setDatas(contacts);
+                        mContactsAdapter.setDatas(contactModels);
                     }
                 });
             }
@@ -95,10 +95,10 @@ public class ContactsFragment extends BaseFragment implements BGAOnRVItemClickLi
 
     @Override
     public void onRVItemClick(ViewGroup viewGroup, View view, int position) {
-        Contact contact = mContactsAdapter.getItem(position);
+        ContactModel contactModel = mContactsAdapter.getItem(position);
         Intent intent = new Intent(mActivity, ChatActivity.class);
-        intent.putExtra(ChatActivity.EXTRA_ACCOUNT, contact.account);
-        intent.putExtra(ChatActivity.EXTRA_NICKNAME, contact.nickname);
+        intent.putExtra(ChatActivity.EXTRA_SESSION_ACCOUNT, contactModel.account);
+        intent.putExtra(ChatActivity.EXTRA_SESSION_NICKNAME, contactModel.nickname);
         mActivity.forward(intent);
     }
 
@@ -116,14 +116,14 @@ public class ContactsFragment extends BaseFragment implements BGAOnRVItemClickLi
         }
     }
 
-    private static final class ContactsAdapter extends BGARecyclerViewAdapter<Contact> {
+    private static final class ContactsAdapter extends BGARecyclerViewAdapter<ContactModel> {
 
         public ContactsAdapter(RecyclerView recyclerView) {
             super(recyclerView, R.layout.item_contacts);
         }
 
         @Override
-        protected void fillData(BGAViewHolderHelper helper, int position, Contact model) {
+        protected void fillData(BGAViewHolderHelper helper, int position, ContactModel model) {
             helper.setText(R.id.tv_item_contacts_nickname, model.nickname);
             helper.setText(R.id.tv_item_contacts_account, model.account);
         }

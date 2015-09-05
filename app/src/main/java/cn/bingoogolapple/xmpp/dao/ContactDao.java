@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bingoogolapple.xmpp.App;
-import cn.bingoogolapple.xmpp.model.Contact;
+import cn.bingoogolapple.xmpp.model.ContactModel;
 import cn.bingoogolapple.xmpp.provider.ContactsProvider;
 import cn.bingoogolapple.xmpp.util.Logger;
 import cn.bingoogolapple.xmpp.util.PinyinUtil;
@@ -63,21 +63,21 @@ public class ContactDao {
         return deletedCount > 0;
     }
 
-    public List<Contact> getContacts() {
-        List<Contact> contacts = new ArrayList<>();
+    public List<ContactModel> getContacts() {
+        List<ContactModel> contactModels = new ArrayList<>();
         Cursor cursor = App.getInstance().getContentResolver().query(ContactsProvider.URI_CONTACT, null, null, null, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                Contact contact = new Contact();
-                contact.account = cursor.getString(cursor.getColumnIndex(ContactOpenHelper.ContactTable.ACCOUNT));
-                contact.nickname = cursor.getString(cursor.getColumnIndex(ContactOpenHelper.ContactTable.NICKNAME));
-                contact.avatar = cursor.getString(cursor.getColumnIndex(ContactOpenHelper.ContactTable.AVATAR));
-                contact.pinyin = cursor.getString(cursor.getColumnIndex(ContactOpenHelper.ContactTable.PINYIN));
-                contacts.add(contact);
+                ContactModel contactModel = new ContactModel();
+                contactModel.account = cursor.getString(cursor.getColumnIndex(ContactOpenHelper.ContactTable.ACCOUNT));
+                contactModel.nickname = cursor.getString(cursor.getColumnIndex(ContactOpenHelper.ContactTable.NICKNAME));
+                contactModel.avatar = cursor.getString(cursor.getColumnIndex(ContactOpenHelper.ContactTable.AVATAR));
+                contactModel.pinyin = cursor.getString(cursor.getColumnIndex(ContactOpenHelper.ContactTable.PINYIN));
+                contactModels.add(contactModel);
             }
             cursor.close();
         }
-        return contacts;
+        return contactModels;
     }
 
 }

@@ -5,7 +5,7 @@ package cn.bingoogolapple.xmpp.model;
  * 创建时间:15/9/3 下午11:31
  * 描述:
  */
-public class Contact {
+public class ContactModel {
     public String account;
     public String avatar;
     public String nickname;

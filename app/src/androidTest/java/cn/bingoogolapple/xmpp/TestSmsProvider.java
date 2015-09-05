@@ -63,9 +63,11 @@ public class TestSmsProvider extends AndroidTestCase {
         if (cursor != null) {
             int columnCount = cursor.getColumnCount();
             while (cursor.moveToNext()) {
+                Logger.i(TAG, "-------START------");
                 for (int i = 0; i < columnCount; i++) {
                     Logger.i(TAG, cursor.getColumnName(i) + " = " + cursor.getString(i) + "  ");
                 }
+                Logger.i(TAG, "-------END------");
             }
         } else {
             Logger.i(TAG, "没有消息");
