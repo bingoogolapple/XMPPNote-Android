@@ -24,9 +24,9 @@ import cn.bingoogolapple.xmpp.util.ThreadUtil;
  */
 public class IMService extends Service {
     private static final String TAG = IMService.class.getSimpleName();
-    public static final String HOST = "192.168.199.142";
+    public static final String HOST = "www.bingoogolapple.cn";
     public static final int PORT = 5222;
-    public static final String SERVICE_NAME = "bga.cn";
+    public static final String SERVICE_NAME = "bingoogolapple.cn";
     public static XMPPConnection sConn;
     public static String sAccount;
 
