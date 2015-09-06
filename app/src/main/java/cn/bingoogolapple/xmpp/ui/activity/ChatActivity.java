@@ -127,7 +127,7 @@ public class ChatActivity extends BaseActivity {
                 if (mSmsDao == null) {
                     mSmsDao = new SmsDao();
                 }
-                final List<MessageModel> messageModels = mSmsDao.getMessages();
+                final List<MessageModel> messageModels = mSmsDao.getMessages(mSessionAccount);
                 ThreadUtil.runInUIThread(new Runnable() {
                     @Override
                     public void run() {
@@ -225,7 +225,7 @@ public class ChatActivity extends BaseActivity {
                     message.setTo(mSessionAccount);
                     message.setBody(msg);
                     message.setType(Message.Type.chat);
-
+                    Logger.i(TAG, "sendMessage  mSessionAccount = " + mSessionAccount);
                     if (mIMBinder.sendMessage(message)) {
                         ThreadUtil.runInUIThread(new Runnable() {
                             @Override

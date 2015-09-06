@@ -14,6 +14,7 @@ import java.util.List;
 import cn.bingoogolapple.xmpp.App;
 import cn.bingoogolapple.xmpp.model.ContactModel;
 import cn.bingoogolapple.xmpp.provider.ContactsProvider;
+import cn.bingoogolapple.xmpp.util.BusinessUtil;
 import cn.bingoogolapple.xmpp.util.Logger;
 import cn.bingoogolapple.xmpp.util.PinyinUtil;
 
@@ -31,11 +32,10 @@ public class ContactDao {
         }
 
         String account = entry.getUser();
-//            account = account.substring(0, account.indexOf("@")) + IMEngine.SERVICE_NAME;
 
         String nickname = entry.getName();
         if (TextUtils.isEmpty(nickname)) {
-            nickname = account.substring(0, account.indexOf("@"));
+            nickname = BusinessUtil.getNickname(account);
         }
 
         ContentValues values = new ContentValues();

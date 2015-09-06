@@ -13,6 +13,7 @@ import java.util.List;
 import cn.bingoogolapple.xmpp.App;
 import cn.bingoogolapple.xmpp.model.MessageModel;
 import cn.bingoogolapple.xmpp.provider.SmsProvider;
+import cn.bingoogolapple.xmpp.util.BusinessUtil;
 import cn.bingoogolapple.xmpp.util.Logger;
 
 /**
@@ -31,7 +32,7 @@ public class SmsDao {
         values.put(SmsOpenHelper.SmsTable.STATUS, "offline");
         values.put(SmsOpenHelper.SmsTable.TYPE, message.getType().name());
         values.put(SmsOpenHelper.SmsTable.TIME, System.currentTimeMillis());
-        values.put(SmsOpenHelper.SmsTable.SESSION_ACCOUNT, sessionAccount);
+        values.put(SmsOpenHelper.SmsTable.SESSION_ACCOUNT, BusinessUtil.getParticipant(sessionAccount));
 
         Uri uri = App.getInstance().getContentResolver().insert(SmsProvider.URI_SMS, values);
         long newlyId = ContentUris.parseId(uri);
@@ -42,9 +43,9 @@ public class SmsDao {
         }
     }
 
-    public List<MessageModel> getMessages() {
+    public List<MessageModel> getMessages(String sessionAccount) {
         List<MessageModel> messageModels = new ArrayList<>();
-        Cursor cursor = App.getInstance().getContentResolver().query(SmsProvider.URI_SMS, null, null, null, null);
+        Cursor cursor = App.getInstance().getContentResolver().query(SmsProvider.URI_SMS, null, SmsOpenHelper.SmsTable.SESSION_ACCOUNT + "=?", new String[]{sessionAccount}, SmsOpenHelper.SmsTable.TIME + " ASC");
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 MessageModel messageModel = new MessageModel();

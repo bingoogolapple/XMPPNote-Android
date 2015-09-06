@@ -9,6 +9,7 @@ import android.text.TextUtils;
 
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
+import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
@@ -25,6 +26,7 @@ import java.util.Set;
 
 import cn.bingoogolapple.xmpp.dao.ContactDao;
 import cn.bingoogolapple.xmpp.dao.SmsDao;
+import cn.bingoogolapple.xmpp.util.BusinessUtil;
 import cn.bingoogolapple.xmpp.util.Logger;
 import cn.bingoogolapple.xmpp.util.ThreadUtil;
 
@@ -78,9 +80,19 @@ public class IMService extends Service {
 
     private void initMessage() {
         mSmsDao = new SmsDao();
-        mChatManager = IMService.sConn.getChatManager();
-        mChatMessageListener = new ChatMessageListener();
         mChatMap = new HashMap<>();
+        mChatMessageListener = new ChatMessageListener();
+        mChatManager = IMService.sConn.getChatManager();
+        mChatManager.addChatListener(new ChatManagerListener() {
+            @Override
+            public void chatCreated(Chat chat, boolean createdLocally) {
+                String participant = BusinessUtil.getParticipant(chat.getParticipant());
+                if (!mChatMap.containsKey(participant)) {
+                    mChatMap.put(participant, chat);
+                    chat.addMessageListener(mChatMessageListener);
+                }
+            }
+        });
     }
 
     private boolean sendMsg(Message message) {

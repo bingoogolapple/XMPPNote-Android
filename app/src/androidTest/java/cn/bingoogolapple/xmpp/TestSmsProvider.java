@@ -59,7 +59,7 @@ public class TestSmsProvider extends AndroidTestCase {
     }
 
     public void testQuerySms() {
-        Cursor cursor = getContext().getContentResolver().query(SmsProvider.URI_SMS, null, null, null, null);
+        Cursor cursor = App.getInstance().getContentResolver().query(SmsProvider.URI_SMS, null, SmsOpenHelper.SmsTable.SESSION_ACCOUNT + "=?", new String[]{"bga3@bingoogolapple.cn"}, SmsOpenHelper.SmsTable.TIME + " ASC");
         if (cursor != null) {
             int columnCount = cursor.getColumnCount();
             while (cursor.moveToNext()) {
