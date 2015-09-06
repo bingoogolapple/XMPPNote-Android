@@ -1,9 +1,13 @@
 package cn.bingoogolapple.xmpp.ui.activity;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -19,9 +23,6 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.nineoldandroids.animation.Animator;
 
-import org.jivesoftware.smack.Chat;
-import org.jivesoftware.smack.MessageListener;
-import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 
 import java.text.SimpleDateFormat;
@@ -38,6 +39,7 @@ import cn.bingoogolapple.xmpp.provider.SmsProvider;
 import cn.bingoogolapple.xmpp.service.IMService;
 import cn.bingoogolapple.xmpp.util.Logger;
 import cn.bingoogolapple.xmpp.util.ThreadUtil;
+import cn.bingoogolapple.xmpp.util.ToastUtil;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
@@ -51,12 +53,13 @@ public class ChatActivity extends BaseActivity {
     private RecyclerView mDataRv;
     private EditText mMsgEt;
     private String mSessionAccount;
-    private Chat mChat;
-    private SmsDao mSmsDao;
     private ChatAdapter mChatAdapter;
     private SmsContentObserver mSmsContentObserver;
     private LinearLayoutManager mLinearLayoutManager;
     private TextView mNewmsgtipTv;
+    private SmsDao mSmsDao;
+    private IMServiceConnection mIMServiceConnection;
+    private IMService.IMBinder mIMBinder;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -80,7 +83,7 @@ public class ChatActivity extends BaseActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    send();
+                    sendMessage();
                 }
                 return true;
             }
@@ -99,6 +102,9 @@ public class ChatActivity extends BaseActivity {
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
+        mIMServiceConnection = new IMServiceConnection();
+        bindService(new Intent(this, IMService.class), mIMServiceConnection, BIND_AUTO_CREATE);
+
         registerSmsContentObserver();
 
         mTitlebar.setTitleText(String.format(getString(R.string.chat_title), getIntent().getStringExtra(EXTRA_SESSION_NICKNAME)));
@@ -110,7 +116,6 @@ public class ChatActivity extends BaseActivity {
         mDataRv.setAdapter(mChatAdapter);
 
         mSessionAccount = getIntent().getStringExtra(EXTRA_SESSION_ACCOUNT);
-        mChat = IMService.sConn.getChatManager().createChat(mSessionAccount, new ChatMessageListener());
 
         reloadData();
     }
@@ -186,6 +191,9 @@ public class ChatActivity extends BaseActivity {
 
     @Override
     public void onDestroy() {
+        if (mIMServiceConnection != null) {
+            unbindService(mIMServiceConnection);
+        }
         unregisterSmsContentObserver();
         super.onDestroy();
     }
@@ -202,38 +210,35 @@ public class ChatActivity extends BaseActivity {
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.tv_chat_send) {
-            send();
+            sendMessage();
         }
     }
 
-    private void send() {
-        final String msg = mMsgEt.getText().toString().trim();
-        if (!TextUtils.isEmpty(msg)) {
-            ThreadUtil.runInThread(new Runnable() {
-                @Override
-                public void run() {
+    private void sendMessage() {
+        ThreadUtil.runInThread(new Runnable() {
+            @Override
+            public void run() {
+                final String msg = mMsgEt.getText().toString().trim();
+                if (!TextUtils.isEmpty(msg)) {
                     Message message = new Message();
-                    message.setFrom(IMService.sAccount);
+                    message.setFrom(cn.bingoogolapple.xmpp.service.IMService.sAccount);
                     message.setTo(mSessionAccount);
                     message.setBody(msg);
                     message.setType(Message.Type.chat);
-                    try {
-                        mChat.sendMessage(message);
 
-                        mSmsDao.saveMessage(message, mSessionAccount);
-                    } catch (XMPPException e) {
-                        e.printStackTrace();
+                    if (mIMBinder.sendMessage(message)) {
+                        ThreadUtil.runInUIThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mMsgEt.setText("");
+                            }
+                        });
+                    } else {
+                        ToastUtil.showSafe("消息发送失败");
                     }
-
-                    ThreadUtil.runInUIThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mMsgEt.setText("");
-                        }
-                    });
                 }
-            });
-        }
+            }
+        });
     }
 
     @Override
@@ -241,14 +246,17 @@ public class ChatActivity extends BaseActivity {
         backward();
     }
 
-    private final class ChatMessageListener implements MessageListener {
+    private final class IMServiceConnection implements ServiceConnection {
 
         @Override
-        public void processMessage(Chat chat, Message message) {
-            Logger.i(TAG, "消息=" + message.getBody() + " 类型=" + message.getType().name());
-            if (message.getType() == Message.Type.chat && !TextUtils.isEmpty(message.getBody())) {
-                mSmsDao.saveMessage(message, chat.getParticipant());
-            }
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Logger.i(TAG, "onServiceConnected");
+            mIMBinder = (IMService.IMBinder) service;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            Logger.i(TAG, "onServiceDisconnected");
         }
     }
 
