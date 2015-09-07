@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MatchWrap.Vertical"
+    android:background="@drawable/selector_white_gray"
+    android:padding="@dimen/size_level2">
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/iv_item_session_avator"
+        android:layout_width="@dimen/size_level10"
+        android:layout_height="@dimen/size_level10"
+        android:layout_marginRight="@dimen/size_level2"
+        android:src="@mipmap/chat_other" />
+
+    <TextView
+        android:id="@+id/tv_item_session_time"
+        style="@style/WrapWrap"
+        android:layout_alignParentRight="true"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/black_middle"
+        android:textSize="@dimen/textSize_14"
+        tools:text="9-7 11:12:20" />
+
+    <TextView
+        android:id="@+id/tv_item_session_nickname"
+        style="@style/MatchWrap"
+        android:layout_marginRight="@dimen/size_level2"
+        android:layout_toLeftOf="@id/tv_item_session_time"
+        android:layout_toRightOf="@id/iv_item_session_avator"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/black_dark"
+        android:textSize="@dimen/textSize_16"
+        tools:text="bga2@bingoogolapple.cn" />
+
+    <TextView
+        android:id="@+id/tv_item_session_body"
+        style="@style/MatchWrap"
+        android:layout_below="@id/tv_item_session_nickname"
+        android:layout_marginTop="@dimen/size_level2"
+        android:layout_toRightOf="@id/iv_item_session_avator"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/black_middle"
+        android:textSize="@dimen/textSize_14"
+        tools:text="我是消息" />
+</RelativeLayout>

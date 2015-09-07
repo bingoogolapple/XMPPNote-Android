@@ -21,7 +21,9 @@ public class SmsProvider extends ContentProvider {
     private static final String TAG = SmsProvider.class.getSimpleName();
     public static final String AUTHORITIES = SmsProvider.class.getCanonicalName();
     public static final int MATCHED_CODE_SMS = 1;
+    public static final int MATCHED_CODE_SESSION = 2;
     public static final Uri URI_SMS = Uri.parse("content://" + AUTHORITIES + "/sms");
+    public static final Uri URI_SESSION = Uri.parse("content://" + AUTHORITIES + "/session");
 
     private static UriMatcher sUriMatcher;
 
@@ -29,6 +31,7 @@ public class SmsProvider extends ContentProvider {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
         sUriMatcher.addURI(AUTHORITIES, "/sms", MATCHED_CODE_SMS);
+        sUriMatcher.addURI(AUTHORITIES, "/session", MATCHED_CODE_SESSION);
     }
 
     private SmsOpenHelper mSmsOpenHelper;
@@ -117,9 +120,11 @@ public class SmsProvider extends ContentProvider {
         int code = sUriMatcher.match(uri);
         switch (code) {
             case MATCHED_CODE_SMS:
-                SQLiteDatabase db = mSmsOpenHelper.getWritableDatabase();
-                cursor = db.query(SmsOpenHelper.T_SMS, projection, selection, selectionArgs, null, null, sortOrder);
+                cursor = mSmsOpenHelper.getWritableDatabase().query(SmsOpenHelper.T_SMS, projection, selection, selectionArgs, null, null, sortOrder);
                 Logger.i(TAG, "查询消息成功");
+                break;
+            case MATCHED_CODE_SESSION:
+                cursor = mSmsOpenHelper.getWritableDatabase().rawQuery("SELECT * FROM (SELECT * FROM " + SmsOpenHelper.T_SMS + " WHERE " + SmsOpenHelper.SmsTable.FROM_ACCOUNT + "=? OR " + SmsOpenHelper.SmsTable.TO_ACCOUNT + "=? ORDER BY " + SmsOpenHelper.SmsTable.TIME + " ASC) GROUP BY " + SmsOpenHelper.SmsTable.SESSION_ACCOUNT, selectionArgs);
                 break;
             default:
                 break;

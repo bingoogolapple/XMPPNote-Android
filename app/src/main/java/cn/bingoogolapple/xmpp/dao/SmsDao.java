@@ -13,6 +13,7 @@ import java.util.List;
 import cn.bingoogolapple.xmpp.App;
 import cn.bingoogolapple.xmpp.model.MessageModel;
 import cn.bingoogolapple.xmpp.provider.SmsProvider;
+import cn.bingoogolapple.xmpp.service.IMService;
 import cn.bingoogolapple.xmpp.util.BusinessUtil;
 import cn.bingoogolapple.xmpp.util.Logger;
 
@@ -26,8 +27,8 @@ public class SmsDao {
 
     public void saveMessage(Message message, String sessionAccount) {
         ContentValues values = new ContentValues();
-        values.put(SmsOpenHelper.SmsTable.FROM_ACCOUNT, message.getFrom());
-        values.put(SmsOpenHelper.SmsTable.TO_ACCOUNT, message.getTo());
+        values.put(SmsOpenHelper.SmsTable.FROM_ACCOUNT, BusinessUtil.getParticipant(message.getFrom()));
+        values.put(SmsOpenHelper.SmsTable.TO_ACCOUNT, BusinessUtil.getParticipant(message.getTo()));
         values.put(SmsOpenHelper.SmsTable.BODY, message.getBody());
         values.put(SmsOpenHelper.SmsTable.STATUS, "offline");
         values.put(SmsOpenHelper.SmsTable.TYPE, message.getType().name());
@@ -46,6 +47,26 @@ public class SmsDao {
     public List<MessageModel> getMessages(String sessionAccount) {
         List<MessageModel> messageModels = new ArrayList<>();
         Cursor cursor = App.getInstance().getContentResolver().query(SmsProvider.URI_SMS, null, SmsOpenHelper.SmsTable.SESSION_ACCOUNT + "=?", new String[]{sessionAccount}, SmsOpenHelper.SmsTable.TIME + " ASC");
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                MessageModel messageModel = new MessageModel();
+                messageModel.fromAccount = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.FROM_ACCOUNT));
+                messageModel.toAccount = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.TO_ACCOUNT));
+                messageModel.body = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.BODY));
+                messageModel.status = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.STATUS));
+                messageModel.type = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.TYPE));
+                messageModel.time = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.TIME));
+                messageModel.sessionAccount = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.SESSION_ACCOUNT));
+                messageModels.add(messageModel);
+            }
+            cursor.close();
+        }
+        return messageModels;
+    }
+
+    public List<MessageModel> getSessions() {
+        List<MessageModel> messageModels = new ArrayList<>();
+        Cursor cursor = App.getInstance().getContentResolver().query(SmsProvider.URI_SESSION, null, null, new String[]{IMService.sAccount, IMService.sAccount}, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 MessageModel messageModel = new MessageModel();

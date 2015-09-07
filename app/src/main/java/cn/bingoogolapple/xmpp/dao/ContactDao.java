@@ -80,4 +80,19 @@ public class ContactDao {
         return contactModels;
     }
 
+    public ContactModel getContactByAccount(String account) {
+        ContactModel contactModel = new ContactModel();
+        Cursor cursor = App.getInstance().getContentResolver().query(ContactsProvider.URI_CONTACT, null, ContactOpenHelper.ContactTable.ACCOUNT + "=?", new String[]{account}, null);
+        if (cursor != null) {
+            if (cursor.moveToNext()) {
+                contactModel.account = cursor.getString(cursor.getColumnIndex(ContactOpenHelper.ContactTable.ACCOUNT));
+                contactModel.nickname = cursor.getString(cursor.getColumnIndex(ContactOpenHelper.ContactTable.NICKNAME));
+                contactModel.avatar = cursor.getString(cursor.getColumnIndex(ContactOpenHelper.ContactTable.AVATAR));
+                contactModel.pinyin = cursor.getString(cursor.getColumnIndex(ContactOpenHelper.ContactTable.PINYIN));
+            }
+            cursor.close();
+        }
+        return contactModel;
+    }
+
 }

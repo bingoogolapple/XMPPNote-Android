@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.test.AndroidTestCase;
 
 import cn.bingoogolapple.xmpp.dao.SmsOpenHelper;
+import cn.bingoogolapple.xmpp.model.MessageModel;
 import cn.bingoogolapple.xmpp.provider.SmsProvider;
 import cn.bingoogolapple.xmpp.util.Logger;
 
@@ -71,6 +72,26 @@ public class TestSmsProvider extends AndroidTestCase {
             }
         } else {
             Logger.i(TAG, "没有消息");
+        }
+    }
+
+    public void testQuerySession() {
+        Cursor cursor = App.getInstance().getContentResolver().query(SmsProvider.URI_SESSION, null, null, new String[]{"bga1@bingoogolapple.cn", "bga1@bingoogolapple.cn"}, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                MessageModel messageModel = new MessageModel();
+                messageModel.fromAccount = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.FROM_ACCOUNT));
+                messageModel.toAccount = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.TO_ACCOUNT));
+                messageModel.body = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.BODY));
+                messageModel.status = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.STATUS));
+                messageModel.type = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.TYPE));
+                messageModel.time = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.TIME));
+                messageModel.sessionAccount = cursor.getString(cursor.getColumnIndex(SmsOpenHelper.SmsTable.SESSION_ACCOUNT));
+
+                Logger.i(TAG, "fromAccount = " + messageModel.fromAccount + " toAccount = " + messageModel.toAccount + " sessionAccount = " + messageModel.sessionAccount + " time = " + messageModel.time + " body = " + messageModel.body);
+            }
+        } else {
+            Logger.i(TAG, "没有会话");
         }
     }
 
