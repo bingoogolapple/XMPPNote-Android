@@ -16,6 +16,7 @@ import org.jivesoftware.smack.XMPPException;
 
 import cn.bingoogolapple.xmpp.R;
 import cn.bingoogolapple.xmpp.service.IMService;
+import cn.bingoogolapple.xmpp.service.PushService;
 import cn.bingoogolapple.xmpp.util.SweetAlertDialogUtil;
 
 public class LoginActivity extends BaseActivity {
@@ -102,6 +103,7 @@ public class LoginActivity extends BaseActivity {
                 dismissLoadingDialog();
                 if (result) {
                     startService(new Intent(LoginActivity.this, IMService.class));
+                    startService(new Intent(LoginActivity.this, PushService.class));
 
                     forwardAndFinish(MainActivity.class);
                 } else {

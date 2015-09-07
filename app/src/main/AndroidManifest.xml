@@ -51,6 +51,7 @@
             android:authorities="cn.bingoogolapple.xmpp.provider.SmsProvider" />
 
         <service android:name=".service.IMService" />
+        <service android:name=".service.PushService" />
     </application>
 
 </manifest>
